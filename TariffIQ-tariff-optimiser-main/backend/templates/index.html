@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TariffIQ - Smart Tariff Optimization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+<!-- Hero Section -->
+<header class="text-center p-16 bg-gradient-to-b from-[#0071CE] to-[#005BA3] text-white rounded">
+    <h1 class="text-5xl font-bold">TariffIQ</h1>
+    <p class="text-xl mt-3">Smarter Tariff Decisions, Stronger Supply Chains</p>
+    <a href="#main-menu" class="inline-block mt-6 bg-white text-[#0071CE] rounded px-6 py-3 font-bold hover:scale-105">Get Started</a>
+</header>
+
+<!-- Introduction Section -->
+<section class="max-w-4xl mx-auto text-center mt-12 p-4">
+    <h2 class="text-3xl font-bold text-[#0071CE]">Why Use TariffIQ?</h2>
+    <p class="text-gray-600 mt-3">TariffIQ empowers Walmart with AI-driven pricing, supplier optimization, and cost comparisons. Stay resilient in an evolving global trade environment with actionable insights and quick decisions.</p>
+</section>
+
+<!-- Features Grid -->
+<section class="max-w-4xl mx-auto mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    <div class="bg-white rounded-lg shadow p-4 text-center">
+        <span class="text-3xl">🌍</span>
+        <h3 class="font-bold mt-2">Real-Time Monitoring</h3>
+        <p class="text-gray-600">Instant alerts and impact simulations for global tariff changes.</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4 text-center">
+        <span class="text-3xl">📊</span>
+        <h3 class="font-bold mt-2">Cost Comparison</h3>
+        <p class="text-gray-600">Visualize pricing across suppliers and countries with a click!</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4 text-center">
+        <span class="text-3xl">⚡️</span>
+        <h3 class="font-bold mt-2">Rapid Decision Making</h3>
+        <p class="text-gray-600">Make agile procurement and pricing decisions quickly and confidently.</p>
+    </div>
+</section>
+
+<!-- Call-To-Action Area -->
+<section class="bg-[#EAF4FF] rounded p-6 mt-12 text-center max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold text-[#0071CE]">Adapt. Save. Thrive. 🌱</h2>
+    <p class="text-gray-600 mt-2">TariffIQ is your AI assistant for making intelligent supply chain decisions every day, no matter the market changes.</p>
+</section>
+
+<!-- Main Menu -->
+<div id="main-menu" class="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 mt-12">
+    <div class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-lg" data-target="suppliers">
+        <h2 class="text-xl font-bold text-[#0071CE]">📋 Suppliers List</h2>
+        <p class="text-gray-600">View available suppliers</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-lg" data-target="tariff">
+        <h2 class="text-xl font-bold text-[#0071CE]">💵 Tariff Impact</h2>
+        <p class="text-gray-600">Calculate cost after tariff</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-lg" data-target="add-supplier">
+        <h2 class="text-xl font-bold text-[#0071CE]">➕ Add New Supplier</h2>
+        <p class="text-gray-600">Add suppliers to the database</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-lg" data-target="comparison">
+        <h2 class="text-xl font-bold text-[#0071CE]">📊 Cost Comparison</h2>
+        <p class="text-gray-600">Compare supplier pricing</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-lg" data-target="optimize">
+        <h2 class="text-xl font-bold text-[#0071CE]">💡 Cost Optimization</h2>
+        <p class="text-gray-600">Best suppliers for a given product & country</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-lg" data-target="top-suppliers">
+        <h2 class="text-xl font-bold text-[#0071CE]">🏆 Top Suppliers</h2>
+        <p class="text-gray-600">List of best suppliers across products</p>
+    </div>
+</div>
+
+<!-- Back Button -->
+<div id="back-button-container" class="max-w-4xl mx-auto p-4 hidden">
+    <button id="back-button" class="bg-[#0071CE] text-white rounded p-2 hover:bg-[#005BA3]">← Back to Main Menu</button>
+</div>
+
+<!-- Sections -->
+<div class="max-w-4xl mx-auto space-y-8 p-4 hidden" id="sections">
+    <!-- Suppliers List Section -->
+    <div id="section-suppliers" class="bg-white rounded-lg shadow p-6 hidden">
+        <h2 class="text-2xl font-semibold text-gray-700">Suppliers List</h2>
+        <div class="overflow-x-auto mt-3">
+            <table class="min-w-full border rounded">
+                <thead class="bg-[#F9FAFB] text-gray-600">
+                    <tr><th class="text-left p-3">Name</th><th class="text-left p-3">Country</th><th class="text-left p-3">Product</th><th class="text-left p-3">Cost ($)</th></tr>
+                </thead>
+                <tbody id="suppliers-table" class="bg-white"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tariff Impact Section -->
+    <div id="section-tariff" class="bg-white rounded-lg shadow p-6 hidden">
+        <h2 class="text-2xl font-semibold text-gray-700">Calculate Tariff Impact</h2>
+        <form id="tariff-form" class="mt-3 space-y-3">
+            <div><label class="font-medium">Product:</label><select id="product" class="border rounded p-2 w-full" required></select></div>
+            <div><label class="font-medium">Country:</label><select id="country" class="border rounded p-2 w-full" required></select></div>
+            <div><label class="font-medium">Tariff Percentage (%):</label><input id="tariff" type="number" class="border rounded p-2 w-full" required /></div>
+            <button class="bg-[#0071CE] hover:bg-[#005BA3] text-white rounded p-2 mt-3 w-full" type="submit">Calculate</button>
+        </form>
+        <h3 class="text-lg font-bold mt-4">Result:</h3><p id="impact-result" class="text-gray-700 mt-2"></p>
+    </div>
+
+    <!-- Add New Supplier Section -->
+    <div id="section-add-supplier" class="bg-white rounded-lg shadow p-6 hidden">
+        <h2 class="text-2xl font-semibold text-gray-700">Add New Supplier</h2>
+        <form id="add-supplier-form" class="mt-3 space-y-3">
+            <div><label class="font-medium">Name:</label><input id="new-supplier-name" class="border rounded p-2 w-full" required /></div>
+            <div><label class="font-medium">Country:</label><input id="new-supplier-country" class="border rounded p-2 w-full" required /></div>
+            <div><label class="font-medium">Product:</label><input id="new-supplier-product" class="border rounded p-2 w-full" required /></div>
+            <div><label class="font-medium">Cost ($):</label><input id="new-supplier-cost" type="number" class="border rounded p-2 w-full" required /></div>
+            <button class="bg-[#0071CE] hover:bg-[#005BA3] text-white rounded p-2 mt-3 w-full" type="submit">Add Supplier</button>
+        </form>
+        <p id="add-supplier-result" class="text-gray-700 mt-2"></p>
+    </div>
+
+    <!-- Cost Comparison Section -->
+    <div id="section-comparison" class="bg-white rounded-lg shadow p-6 hidden">
+        <h2 class="text-2xl font-semibold text-gray-700">Cost Comparison</h2>
+        <div class="mt-3"><label for="product-select" class="font-medium">Choose Product:</label><select id="product-select" class="border rounded p-2 w-full mt-1"></select></div>
+        <canvas id="comparisonChart" class="mt-4" height="150"></canvas>
+    </div>
+
+    <!-- Cost Optimization Section -->
+    <div id="section-optimize" class="bg-white rounded-lg shadow p-6 hidden">
+        <h2 class="text-2xl font-semibold text-gray-700">Cost Optimization</h2>
+        <div class="mt-3"><label class="font-medium">Product:</label><select id="optimize-product" class="border rounded p-2 w-full"></select></div>
+        <div class="mt-3"><label class="font-medium">Country:</label><select id="optimize-country" class="border rounded p-2 w-full"></select></div>
+        <button id="optimize-button" class="bg-[#0071CE] hover:bg-[#005BA3] text-white rounded p-2 mt-3 w-full">Find Best Supplier</button>
+        <div id="optimize-result" class="mt-4 text-gray-700"></div>
+    </div>
+
+    <!-- Top Suppliers Section -->
+    <div id="section-top-suppliers" class="bg-white rounded-lg shadow p-6 hidden">
+        <h2 class="text-2xl font-semibold text-gray-700">Top Suppliers</h2>
+        <div id="top-suppliers-result" class="mt-3 space-y-2 text-gray-700"></div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script>
+let suppliersData = [];
+
+async function loadSuppliers() {
+    const resp = await fetch('http://127.0.0.1:5000/suppliers');
+    suppliersData = await resp.json();
+    const tableBody = document.querySelector('#suppliers-table');
+    tableBody.innerHTML = suppliersData.map(s => `
+        <tr class="border-t hover:bg-[#EAF4FF]">
+            <td class="p-3">${s.name}</td>
+            <td class="p-3">${s.country}</td>
+            <td class="p-3">${s.product}</td>
+            <td class="p-3">${s.cost}</td>
+        </tr>
+    `).join('');
+
+    const uniqueProducts = [...new Set(suppliersData.map(s => s.product.trim()))];
+    const uniqueCountries = [...new Set(suppliersData.map(s => s.country.trim()))];
+    const productDropdown = document.getElementById('product');
+    const countryDropdown = document.getElementById('country');
+    const chartProductDropdown = document.getElementById('product-select');
+
+    [productDropdown, chartProductDropdown].forEach(d => {
+        d.innerHTML = '';
+        uniqueProducts.forEach(p => {
+            const option = document.createElement('option');
+            option.value = p;
+            option.text = p;
+            d.appendChild(option);
+        });
+    });
+    countryDropdown.innerHTML = '';
+    uniqueCountries.forEach(c => {
+        const option = document.createElement('option');
+        option.value = c;
+        option.text = c;
+        countryDropdown.appendChild(option);
+    });
+    loadOptimizeOptions();
+    loadTopSuppliers();
+}
+
+
+async function loadChart() {
+    const selectedProduct = document.getElementById('product-select').value.trim().toLowerCase();
+
+    // DEBUG: Log what we selected
+    console.log("Loading chart for:", selectedProduct);
+    console.log("All suppliers:", suppliersData);
+
+    // Filter suppliers
+    const filtered = suppliersData.filter(s => 
+        s.product.trim().toLowerCase() === selectedProduct
+    );
+    console.log("Filtered suppliers:", filtered);
+
+    // Check results
+    if (!filtered.length) {
+        alert("No suppliers found for this product.");
+        return;
+    }
+
+    // Build labels & data
+    const labels = filtered.map(s => `${s.name} (${s.country})`);
+    const data = filtered.map(s => Number(s.cost));
+
+    const ctx = document.getElementById('comparisonChart').getContext('2d');
+
+    // Destroy old chart if present
+    if (window.comparisonChart && window.comparisonChart instanceof Chart) {
+        window.comparisonChart.destroy();
+    }
+
+    // Create new chart
+    window.comparisonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{ 
+                label: 'Cost',
+                data,
+                backgroundColor: '#0071CE' 
+            }]
+        },
+        options: {
+            scales: {
+                y: { title: { display: true, text: 'Cost ($)' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+
+async function loadTopSuppliers() {
+    const resp = await fetch('http://127.0.0.1:5000/top_suppliers');
+    const suppliers = await resp.json();
+    const container = document.getElementById('top-suppliers-result');
+    container.innerHTML = suppliers.map(s => `
+        <div class="bg-gray-100 rounded p-3">
+            <strong>${s.name}</strong> (${s.country})<br/>
+            Avg Cost: $${s.avg_cost.toFixed(2)} | Products: ${s.total_products}
+        </div>
+    `).join('');
+}
+
+function loadOptimizeOptions() {
+    const uniqueProducts = [...new Set(suppliersData.map(s => s.product.trim()))];
+    const uniqueCountries = [...new Set(suppliersData.map(s => s.country.trim()))];
+    const productDropdown = document.getElementById('optimize-product');
+    const countryDropdown = document.getElementById('optimize-country');
+    [productDropdown, countryDropdown].forEach(d => d.innerHTML = '');
+    uniqueProducts.forEach(p => {
+        const option = document.createElement('option');
+        option.value = p;
+        option.text = p;
+        productDropdown.appendChild(option);
+    });
+    uniqueCountries.forEach(c => {
+        const option = document.createElement('option');
+        option.value = c;
+        option.text = c;
+        countryDropdown.appendChild(option);
+    });
+}
+
+// Event Listeners
+document.getElementById('product-select').addEventListener('change', loadChart);
+
+const tariffForm = document.getElementById('tariff-form');
+tariffForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const product = document.getElementById('product').value.trim();
+    const country = document.getElementById('country').value.trim();
+    const tariff = parseFloat(document.getElementById('tariff').value);
+    const resp = await fetch('http://127.0.0.1:5000/impact', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({product, country, new_tariff: tariff})
+    });
+    const data = await resp.json();
+    const resultText = data.impact
+        ? `Resulting Cost after ${tariff}% tariff for ${product} (${country}): $${data.impact.toFixed(2)}`
+        : 'Product/Country not found';
+    document.getElementById('impact-result').innerText = resultText;
+});
+
+const addSupplierForm = document.getElementById('add-supplier-form');
+addSupplierForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const newSupplier = {
+        name: document.getElementById('new-supplier-name').value.trim(),
+        country: document.getElementById('new-supplier-country').value.trim(),
+        product: document.getElementById('new-supplier-product').value.trim(),
+        cost: parseFloat(document.getElementById('new-supplier-cost').value.trim()),
+    };
+    const resp = await fetch('http://127.0.0.1:5000/add_supplier', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(newSupplier),
+    });
+    const result = await resp.json();
+    document.getElementById('add-supplier-result').innerText = result.status === 'success' 
+        ? '✅ New supplier added successfully!'
+        : '❌ Failed to add supplier.';
+    loadSuppliers();
+});
+
+const optimizeButton = document.getElementById('optimize-button');
+optimizeButton?.addEventListener('click', async () => {
+    const product = document.getElementById('optimize-product').value.trim();
+    const country = document.getElementById('optimize-country').value.trim();
+    const resp = await fetch('http://127.0.0.1:5000/optimize', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({product, country})
+    });
+    const data = await resp.json();
+    const container = document.getElementById('optimize-result');
+    if (data.error) {
+        container.innerHTML = `<p class="text-red-600">${data.error}</p>`;
+    } else {
+        container.innerHTML = `
+            <h3 class="font-bold">Best Supplier: ${data.best_supplier}</h3>
+            ${data.results.map(r => `
+                <div class="bg-gray-100 rounded p-2 mt-2">
+                    ${r.name}: $${r.cost}
+                    (${r.difference >= 0 ? '+' : '-'}${Math.abs(r.difference)},
+                    ${r.difference_percent}%)
+                </div>
+            `).join('')}
+        `;
+    }
+});
+
+// Menu Navigation
+const menuItems = document.querySelectorAll('#main-menu [data-target]');
+menuItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+        const target = e.currentTarget.getAttribute('data-target');
+        document.getElementById('main-menu').classList.add('hidden');
+        document.getElementById('sections').classList.remove('hidden');
+        document.getElementById('back-button-container').classList.remove('hidden');
+
+        const sections = document.querySelectorAll('#sections > div');
+        sections.forEach(sec => {
+            sec.classList.toggle('hidden', sec.id !== `section-${target}`);
+        });
+
+        // ⚡️ IMPORTANT ADDITION
+        if (target === 'comparison') {
+            const select = document.getElementById('product-select');
+            // Make sure we have at least one option
+            if (select.options.length > 0) {
+                select.value = select.options[0].value;
+                loadChart();
+            }
+        }
+    });
+});
+
+
+// Back Button Logic
+const backButton = document.getElementById('back-button');
+backButton.addEventListener('click', () => {
+    document.getElementById('sections').classList.add('hidden');
+    document.getElementById('back-button-container').classList.add('hidden');
+    document.getElementById('main-menu').classList.remove('hidden');
+});
+
+// Initial load
+loadSuppliers();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+

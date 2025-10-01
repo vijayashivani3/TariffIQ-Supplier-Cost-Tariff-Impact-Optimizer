@@ -1,0 +1,13 @@
+name,country,product,cost
+Supplier A,China,T-shirt,10.0
+Supplier B,Mexico,T-shirt,9.0
+Supplier C,USA,T-shirt,12.0
+Supplier D,India,T-shirt,8.0
+Supplier E,Vietnam,T-shirt,7.5
+Supplier F,Bangladesh,T-shirt,6.8
+Supplier G,USA,Jeans,20.0
+Supplier H,China,Jeans,18.0
+Supplier I,Mexico,Jeans,17.0
+Supplier J,Vietnam,Jeans,16.5
+Supplier K,India,Saree,21.0
+Supplier W,UK,Hoodies,15.0
